@@ -1,0 +1,25 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /order-management/
+
+# Cho phép truy cập tất cả các file PHP
+<FilesMatch "\.php$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Ngăn chặn liệt kê thư mục
+Options -Indexes
+
+# Chuyển hướng trang chủ đến dashboard
+RewriteRule ^$ dashboard/index.php [L]
+
+# Đảm bảo không phải thư mục hoặc file thực
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Chuyển hướng tất cả request không hợp lệ về trang 404
+RewriteRule ^dashboard/(.*)$ $1 [R=301,L]
+
+# Xử lý URL không tồn tại
+ErrorDocument 404 /order-management/404.php 
